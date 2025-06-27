@@ -1,0 +1,37 @@
+_BASE_: "./base.yaml"
+
+# base settings
+output_dir: './_runs/'  
+exp_name: 'layoutLMv3__token_only__bidirection_focal__hier'
+embedding_components: ["token"]
+aux_losses: ["bidirection", "focal"]
+roi_output_size: 7
+target_visual_size: 28
+
+fuse: "attn"
+num_tokens: 500
+pretrained_weights: null 
+geom_pretrained_weights: null
+batch_size: 4
+token_padding_max_length: 1000
+max_position_embeddings: 1024
+
+layoutLMv3_pretrained_weights: null
+poly_pretrained_weights: null
+token_pretrained_weights: null
+visual_pretrained_weights: null
+
+train_datasets: ["HierText_train"] 
+train_data_probabilities: [1]
+val_dataset: "HierText_val"
+val_data_shuffle: False
+
+eval_every_epoch: 5
+save_every_epoch: 30
+num_epochs: 500
+scheduler_patience: 5
+patience: 8
+
+lr: 0.00005
+version: 0
+

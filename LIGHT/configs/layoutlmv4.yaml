@@ -1,0 +1,36 @@
+_BASE_: "./base.yaml"
+
+# base settings
+output_dir: './_runs/'
+base_model: "layoutLMv4"
+exp_name: 'layoutLMv4_finetune_HierText_bidirection'
+embedding_components: ["token", "poly"]
+aux_losses: ["bidirection"] #, "focal"]
+
+token_padding_max_length: 1000
+padding_token_id: -100
+mask_token_id: -1
+max_len: 32
+
+poly_only: False
+text_only: False
+
+# layoutLMv4_pretrained_weights: "/users/8/lin00786/work/MapText/text_linking/_runs/layoutLMv4_pretrain__v1/models/model_epoch_3000.pth"
+layoutLMv4_pretrained_weights: "/users/8/lin00786/work/MapText/text_linking/_runs/layoutLMv4_scene_pretrain__v2/models/model_epoch_2400.pth"
+
+batch_size: 2
+train_datasets: ["HierText_train"]
+train_data_probabilities: [1]
+val_dataset: "HierText_val"
+val_data_shuffle: False
+
+save_every_epoch: 100
+eval_every_epoch: 1
+num_epochs: 100
+lr: 0.00005
+weight_decay: 0.0
+scheduler_patience: 5
+patience: 9
+
+version: 4
+

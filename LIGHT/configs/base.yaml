@@ -1,0 +1,61 @@
+# base settings
+output_dir: './_runs/'  
+base_model: 'layoutLMv3'
+exp_name: ""
+embedding_components: ["token"]
+fuse: "gate"
+pretrained_model_name: "microsoft/layoutlmv3-base"
+
+# model settings
+# loss
+aux_losses: [""]
+focal_alpha: 0.25
+focal_gamma: 2.0
+
+# visual
+roi_output_size: 7
+target_visual_size: 28
+
+# token
+token_padding_max_length: 1000
+max_position_embeddings: 1024
+
+# poly
+poly_num_tokens: 500
+
+layoutLMv3_pretrained_weights: null
+layoutLMv4_pretrained_weights: null
+poly_pretrained_weights: null
+token_pretrained_weights: null
+visual_pretrained_weights: null
+
+# dataset settings
+train_datasets: ["MapText_train"]
+train_data_probabilities: [1]
+train_data_shuffle: True
+val_dataset: "MapText_val"
+val_data_shuffle: False
+
+# training settings
+batch_size: 4
+num_epochs: 80
+lr: 0.00005
+scheduler_patience: 2
+eval_every_epoch: 1
+save_every_epoch: 30
+patience: 5
+
+# Device configuration
+device: "cuda"
+
+# Distributed training parameters
+world_size: 1
+local-rank: 0
+dist_on_itp: False
+dist_url: "env://"
+
+# Version Control
+seed: 0
+version: 0
+
+version: 0
