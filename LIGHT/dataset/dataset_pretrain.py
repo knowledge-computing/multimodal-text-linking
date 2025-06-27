@@ -15,10 +15,10 @@ from multi_modal_tokenizers import DalleTokenizer
 from dataset.data_utils import *
 from dataset.buildin import DATASET_META
 
+############################################################################################
+############################################################################################
+############################################################################################
 
-############################################################################################
-############################################################################################
-############################################################################################
 def apply_mlm_mask(input_ids, tokenizer, mask_prob=0.15):
     """
     Applies MLM masking to text tokens.
@@ -200,21 +200,20 @@ class PretrainDataset(Dataset):
         self.mode = mode
         
         self.samples = []
-        # self.paths = {DATASET_META['Rumsey1_train']['anno_path']: DATASET_META['Rumsey1_train']['img_dir'],
-        #               DATASET_META['Rumsey2_train']['anno_path']: DATASET_META['Rumsey2_train']['img_dir'],
-        #               DATASET_META['MapText_json_train']['anno_path']: DATASET_META['MapText_json_train']['img_dir']}
+        self.paths = {DATASET_META['Rumsey1_train']['anno_path']: DATASET_META['Rumsey1_train']['img_dir'],
+                      DATASET_META['Rumsey2_train']['anno_path']: DATASET_META['Rumsey2_train']['img_dir'],
+                      DATASET_META['MapText_json_train']['anno_path']: DATASET_META['MapText_json_train']['img_dir']}
 
-        self.paths = {DATASET_META['hiertext_json_train']['anno_path']: DATASET_META['hiertext_json_train']['img_dir'],
-                      DATASET_META['icdar15_json_train']['anno_path']: DATASET_META['icdar15_json_train']['img_dir'],
-                      DATASET_META['icdar15_json_test']['anno_path']: DATASET_META['icdar15_json_test']['img_dir'],
-                      DATASET_META['mlt_json_train']['anno_path']: DATASET_META['mlt_json_train']['img_dir'],
-                      DATASET_META['textocr_json_train']['anno_path']: DATASET_META['textocr_json_train']['img_dir'],
-                      DATASET_META['totaltext_json_train']['anno_path']: DATASET_META['totaltext_json_train']['img_dir'],
-                      DATASET_META['hiertext_json_train']['anno_path']: DATASET_META['hiertext_json_train']['img_dir'],
-                      DATASET_META['hiertext_json_val']['anno_path']: DATASET_META['hiertext_json_val']['img_dir'],                      
-                      DATASET_META['hiertext_json_103624_test']['anno_path']: DATASET_META['hiertext_json_103624_test']['img_dir'],
-                     }
-                      # DATASET_META['MapText_json_train']['anno_path']: DATASET_META['MapText_json_train']['img_dir']
+        # self.paths = {DATASET_META['hiertext_json_train']['anno_path']: DATASET_META['hiertext_json_train']['img_dir'],
+        #               DATASET_META['icdar15_json_train']['anno_path']: DATASET_META['icdar15_json_train']['img_dir'],
+        #               DATASET_META['icdar15_json_test']['anno_path']: DATASET_META['icdar15_json_test']['img_dir'],
+        #               DATASET_META['mlt_json_train']['anno_path']: DATASET_META['mlt_json_train']['img_dir'],
+        #               DATASET_META['textocr_json_train']['anno_path']: DATASET_META['textocr_json_train']['img_dir'],
+        #               DATASET_META['totaltext_json_train']['anno_path']: DATASET_META['totaltext_json_train']['img_dir'],
+        #               DATASET_META['hiertext_json_train']['anno_path']: DATASET_META['hiertext_json_train']['img_dir'],
+        #               DATASET_META['hiertext_json_val']['anno_path']: DATASET_META['hiertext_json_val']['img_dir'],
+        #               DATASET_META['hiertext_json_103624_test']['anno_path']: DATASET_META['hiertext_json_103624_test']['img_dir'],
+        #              }
         
         self.samples = []
         for anno_path, _ in self.paths.items():

@@ -16,7 +16,7 @@ from torch.utils.tensorboard import SummaryWriter
 from transformers import get_scheduler
 
 from dataset.dataset_poly import PolyTrainDataset, PolyTestDataset
-from model.poly_encoder import PolyEncoder
+from models.poly_pretrain import PolyPretrain
 from utils.options import parse_args
 from utils.utils import *
 import utils.misc as misc
@@ -76,7 +76,7 @@ def main():
     
     ###
     ### model
-    model = PolyEncoder(emb_dim=768, task="pretrain", args=args).to(device)
+    model = PolyPretrain(emb_dim=768, task="pretrain", args=args).to(device)
     model_without_ddp = model
     
     if args.distributed:
@@ -155,3 +155,6 @@ def main():
     
 if __name__ == '__main__':
     main()
+
+# CUDA_VISIBLE_DEVICES="0" torchrun --nproc_per_node=1 --nnodes=1 --node_rank=0 --master_addr=127.0.0.1 --master_port=14476 pretrain_poly.py --config configs/pretrain_poly.yaml
+

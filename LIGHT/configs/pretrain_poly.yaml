@@ -2,7 +2,7 @@
 output_dir: './_runs/'  
 
 # model settings
-exp_name: "pretrain_poly__all_data"
+exp_name: "test"
 resume: False
 checkpoint_path: "./_runs/pretrain_poly__all_data__v0/models/model_epoch_500.pth"
 

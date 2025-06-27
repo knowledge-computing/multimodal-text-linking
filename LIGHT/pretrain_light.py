@@ -16,10 +16,9 @@ from torch.utils.tensorboard import SummaryWriter
 from transformers import get_scheduler
 
 from dataset.dataset_pretrain import PretrainDataset
-from model.layoutlmv3 import LayoutLMv3Pretrain
-from model.layoutlmv4 import LayoutLMv4Pretrain
+from models.pretrain import LightPretrain
 
-from model.model_utils import get_processors
+from models.model_utils import get_processors
 from utils.options import parse_args
 from utils.utils import *
 import utils.misc as misc
@@ -77,12 +76,7 @@ def main():
                                 sampler=sampler_val, 
                                 batch_size=args.batch_size)   
 
-    if args.base_model == 'layoutLMv3':
-        model = LayoutLMv3Pretrain(args).to(device)
-    elif args.base_model == 'layoutLMv4':
-        model = LayoutLMv4Pretrain(args).to(device)
-    else:
-        raise NotImplementedError
+    model = LightPretrain(args).to(device)
     model_without_ddp = model
     
     if args.distributed:
@@ -111,13 +105,13 @@ def main():
     
     ###
     ### model
-    if args.base_model == 'layoutLMv4' and args.poly_pretrained_weights is not None:
+    if args.base_model == 'light' and args.poly_pretrained_weights is not None:
         assert os.path.exists(args.poly_pretrained_weights), "Poly pretrained weights must exists" 
         print("... Loading pretrained weights for poly_encoder ...")
         checkpoint = load_model_weights(args.poly_pretrained_weights)
         if list(checkpoint.keys())[0].startswith('module.'):
             checkpoint = {k[len("module."):]: v for k, v in checkpoint.items()}
-        msg = model_without_ddp.layoutLMv4.poly_encoder.load_state_dict(checkpoint, strict=False)
+        msg = model_without_ddp.light.poly_encoder.load_state_dict(checkpoint, strict=False)
         print(msg)
     
     ###

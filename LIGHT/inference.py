@@ -11,13 +11,11 @@ from collections import defaultdict
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from transformers import LayoutLMv3Model, LayoutLMv3TokenizerFast, LayoutLMv3ImageProcessor
 
 from dataset.dataset import LinkingTestDataset
 from dataset.buildin import DATASET_META
-from model.text_linking_v3 import LayoutLMv3TextLinking
-from model.text_linking_v4 import LayoutLMv4TextLinking
-from model.model_utils import get_processors
+from models.text_linking import LightTextLinking
+from models.model_utils import get_processors
 
 
 def group_successors(elements, successors):
@@ -99,8 +97,7 @@ def group_successors_with_probability(words, probabilities, bi_probabilities):
 
 
 def main():
-    # python inference.py --test_dataset MapText_test --out_file predict.json --model_dir _runs/layoutLMv3__poly_only__bidirection__pretrain_Rumsey__token500__v0/ 
-    # python inference1.py --test_dataset test --out_file lithium.json --model_dir _runs/best/ --anno_path /home/yaoyi/shared/critical-maas/12month-text-extraction/spot/lithium.json  --img_dir /home/yaoyi/shared/critical-maas/12month-text-extraction/img_crops/lithium
+    # python inference.py --test_dataset test --out_file lithium.json --model_dir _runs/best/ --anno_path /home/yaoyi/shared/critical-maas/12month-text-extraction/spot/lithium.json  --img_dir /home/yaoyi/shared/critical-maas/12month-text-extraction/img_crops/lithium
     
     parser = argparse.ArgumentParser()
     parser.add_argument('--model_dir', type=str)
@@ -122,13 +119,7 @@ def main():
     checkpoint_path = os.path.join(args.model_dir, 'best_model.pth')
     state_dict = torch.load(checkpoint_path)
 
-    if args.base_model == 'layoutLMv3':
-        print("... Using LayoutLMv3TextLinking ... ")
-        model = LayoutLMv3TextLinking(args)
-    if args.base_model == 'layoutLMv4':
-        print("... Using LayoutLMv4TextLinking ... ")
-        model = LayoutLMv4TextLinking(args)
-
+    model = LightTextLinking(args)
     msg = model.load_state_dict(state_dict, strict=False)
     print(msg)
     model.to(device)

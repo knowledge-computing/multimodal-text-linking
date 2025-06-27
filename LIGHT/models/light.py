@@ -12,7 +12,7 @@ from transformers.utils import logging
 from transformers import LayoutLMv3Model, LayoutLMv3Config
 from transformers import BertModel, BertConfig
 from transformers import BeitForMaskedImageModeling
-from model.model_utils import MLP
+from models.model_utils import MLP
 
 def torch_int(x):
     """

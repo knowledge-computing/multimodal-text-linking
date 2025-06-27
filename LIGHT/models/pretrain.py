@@ -12,14 +12,14 @@ from transformers.utils import logging
 from transformers import LayoutLMv3Model, LayoutLMv3Config
 from transformers import BertModel, BertConfig
 from transformers import BeitForMaskedImageModeling
-from model.model_utils import MLP
+from models.model_utils import MLP
 from models.light import LightModel
 
 
 class LightPretrain(nn.Module):
     def __init__(self, args):
         super(LightPretrain, self).__init__()
-        self.emb_dim = self.config.hidden_size
+        self.emb_dim = 768
         self.token_padding_max_length = args.token_padding_max_length
         self.max_position_embeddings = getattr(args, "max_position_embeddings", 1280)
 

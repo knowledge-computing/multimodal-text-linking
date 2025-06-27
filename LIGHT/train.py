@@ -10,19 +10,16 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 import torch.nn.functional as F
-
 from torch.optim import AdamW
 from torch.utils.data import DataLoader
 from torch.utils.tensorboard import SummaryWriter
 
 from dataset.dataset import LinkingTrainDataset, LinkingTestDataset
-from model.text_linking_v3 import LayoutLMv3TextLinking
-from model.text_linking_v4 import LayoutLMv4TextLinking
-
+from dataset.buildin import DATASET_META
+from models.text_linking import LightTextLinking
+from models.model_utils import get_processors
 from utils.options import parse_args
 from utils.utils import *
-from model.model_utils import get_processors
-from dataset.buildin import DATASET_META
 
 
 def count_parameters(model, trainable_only=True):
@@ -69,51 +66,14 @@ def main():
 
     ###
     ### model
-    if args.base_model == 'layoutLMv3':
-        model = LayoutLMv3TextLinking(args)
-        if args.poly_pretrained_weights is not None:
-            assert os.path.exists(args.poly_pretrained_weights), "Poly pretrained weights must exists"
-            print("... Loading pretrained weights for poly_encoder ...")
-            checkpoint = load_model_weights(args.poly_pretrained_weights)
-            if list(checkpoint.keys())[0].startswith('module.'):
-                checkpoint = {k[len("module."):]: v for k, v in checkpoint.items()}
-            msg = model.poly_encoder.load_state_dict(checkpoint, strict=False)
-            print(msg)
-            
-        if args.layoutLMv3_pretrained_weights is not None:
-            assert os.path.exists(args.layoutLMv3_pretrained_weights), "layoutLMv3 pretrained weights must exists"
-            print("... Loading pretrained weights for layoutLMv3 ...")
-            checkpoint = load_model_weights(args.layoutLMv3_pretrained_weights)
-            checkpoint = {k[len("layoutLMv3."):]: v for k, v in checkpoint.items() if k.startswith('layoutLMv3')}
-            msg = model.layoutLMv3.load_state_dict(checkpoint, strict=False)
-            print(msg)
-
-    if args.base_model == 'layoutLMv4':
-        model = LayoutLMv4TextLinking(args)        
-        if args.layoutLMv4_pretrained_weights is not None:
-            assert os.path.exists(args.layoutLMv4_pretrained_weights), "layoutLMv4 pretrained weights must exists"
-            print("... Loading pretrained weights for layoutLMv4 ...")
-            checkpoint = load_model_weights(args.layoutLMv4_pretrained_weights)
-            checkpoint = {k[len("module.layoutLMv4."):]: v for k, v in checkpoint.items() if k.startswith('module.layoutLMv4')}    
-            msg = model.layoutLMv4.load_state_dict(checkpoint, strict=False)
-            print(msg)
-            
-        if args.layoutLMv3_pretrained_weights is not None:
-            assert os.path.exists(args.layoutLMv3_pretrained_weights), "layoutLMv4 pretrained weights must exists"
-            print("... Loading pretrained weights for layoutLMv3 ...")
-            checkpoint = load_model_weights(args.layoutLMv3_pretrained_weights)
-            checkpoint = {k[len("layoutLMv3."):]: v for k, v in checkpoint.items() if k.startswith('layoutLMv3')}
-            msg = model.layoutLMv4.load_state_dict(checkpoint, strict=False)
-            print(msg)
-            
-        if args.poly_pretrained_weights is not None:
-            assert os.path.exists(args.poly_pretrained_weights), "Poly pretrained weights must exists" 
-            print("... Loading pretrained weights for poly_encoder ...")
-            checkpoint = load_model_weights(args.poly_pretrained_weights)
-            if list(checkpoint.keys())[0].startswith('layoutLMv3'):
-                checkpoint = {k[len("poly_encoder."):]: v for k, v in checkpoint.items() if not k.startswith('layoutLMv3')}
-            msg = model.layoutLMv4.poly_encoder.load_state_dict(checkpoint, strict=False)
-            print(msg)
+    model = LightTextLinking(args)        
+    if args.light_pretrained_weights is not None:
+        assert os.path.exists(args.light_pretrained_weights), "LIGHT pretrained weights must exists"
+        print("... Loading pretrained weights for LIGHT ...")
+        checkpoint = load_model_weights(args.light_pretrained_weights)
+        checkpoint = {k[len("module.light."):]: v for k, v in checkpoint.items() if k.startswith('module.light')}    
+        msg = model.light.load_state_dict(checkpoint, strict=False)
+        print(msg) 
 
     total_params = count_parameters(model, trainable_only=False)
     print(f"Total parameters: {total_params:,}")
@@ -178,15 +138,19 @@ def main():
 
         ### terminate
         if epochs_no_improve >= args.patience or epoch == args.num_epochs - 1:
+            base_comm = f"python inference.py --test_dataset MapText_test --out_file predict.json --model_dir {model_dir} --anno_path {anno_path} --img_dir {img_dir}"
             if args.val_dataset == "MapText_val":
-                print(f"python inference1.py --test_dataset MapText_test --out_file predict.json --model_dir {args.output_dir} --anno_path {DATASET_META['MapText_test']['anno_path']} --img_dir {DATASET_META['MapText_test']['img_dir']}")
-                os.system(f"python inference1.py --test_dataset MapText_test --out_file predict.json --model_dir {args.output_dir} --anno_path {DATASET_META['MapText_test']['anno_path']} --img_dir {DATASET_META['MapText_test']['img_dir']}")
+                comm = base_comm.format(model_dir=args.output_dir, 
+                                        anno_path=DATASET_META['MapText_test']['anno_path'], 
+                                        img_dir=DATASET_META['MapText_test']['img_dir'])
+                print(comm)
+                os.system(comm)
             if args.val_dataset == "HierText_val":
-                print(f"python inference1.py --test_dataset HierText_test --out_file predict.json --model_dir {args.output_dir} --anno_path {DATASET_META['HierText_test']['anno_path']} --img_dir {DATASET_META['HierText_test']['img_dir']}")
-                os.system(f"python inference1.py --test_dataset HierText_test --out_file predict.json --model_dir {args.output_dir} --anno_path {DATASET_META['HierText_test']['anno_path']} --img_dir {DATASET_META['HierText_test']['img_dir']}")
-            if args.val_dataset == "IGN_val":
-                print(f"python inference1.py --test_dataset IGN_test --out_file predict.json --model_dir {args.output_dir}")
-                os.system(f"python inference1.py --test_dataset IGN_test --out_file predict.json --model_dir {args.output_dir}")
+                comm = base_comm.format(model_dir=args.output_dir, 
+                                        anno_path=DATASET_META['HierText_test']['anno_path'], 
+                                        img_dir=DATASET_META['HierText_test']['img_dir'])
+                print(comm)
+                os.system(comm)
             sys.exit(0)
             
         

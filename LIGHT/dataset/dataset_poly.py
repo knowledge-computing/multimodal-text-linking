@@ -215,9 +215,7 @@ def process_one_sample(
     char_height_list = [char_height_list[i] for i in indices]
     angle_list = [angle_list[i] for i in indices]
     polygon_list = [polygon_list[i] for i in indices]    
-    
     word_list = [word_list[i] for i in indices]    
-
     
     n = num_samples_per_image
     pid = padding_token_id
@@ -302,6 +300,8 @@ class PolyTrainDataset(Dataset):
         self.datasets = {}
         for i, name in enumerate(self.dataset_names):
             print(f"Load training data: {name}")
+            assert os.path.exists(DATASET_META[name]['anno_path']), f"Annotation data {name} must exist."
+            assert os.path.exists(DATASET_META[name]['img_dir']), f"Image data {name} must exist."
             dataset = LinkingDataset(dataset_name=name,
                                      anno_path=DATASET_META[name]['anno_path'], 
                                      img_dir=DATASET_META[name]['img_dir'],
@@ -318,7 +318,6 @@ class PolyTrainDataset(Dataset):
     def __getitem__(self, idx):
         dataset_name = random.choices(self.dataset_names, self.probabilities)[0]
         image, anno, image_name = self.datasets[dataset_name].get_item(idx, is_random=True)
-        # print(image_name)
         if len(anno) == 0:
             dataset_name = random.choices(self.dataset_names, self.probabilities)[0]
             image, anno, image_name = self.datasets[dataset_name].get_item(idx, is_random=True)

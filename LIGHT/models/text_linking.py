@@ -7,14 +7,14 @@ from transformers import LayoutLMv3Config
 from transformers import BertModel, BertConfig
 from transformers import BeitForMaskedImageModeling
 
-from model.losses import NCELoss, FocalLoss
-from model.model_utils import MLP, TokenEncoder
-from model.light import LightModel
+from models.losses import NCELoss, FocalLoss
+from models.model_utils import MLP, TokenEncoder
+from models.light import LightModel
 
 
 class LightTextLinking(nn.Module):
     def __init__(self, args):
-        super(LayoutLMv4TextLinking, self).__init__()
+        super(LightTextLinking, self).__init__()
         self.emb_dim = 768
         self.aux_losses = args.aux_losses
         self.embedding_components = args.embedding_components
