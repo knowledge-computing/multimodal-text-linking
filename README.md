@@ -1,5 +1,11 @@
 # LIGHT: Multi-Modal Text Linking for Historical Maps
-This repository provides training and inference scripts for pretraining and fine-tuning the **LIGHT** model, which integrates polygon geometry and visual-textual features for text linking on historical maps.
+This repository provides training and inference scripts for **LIGHT**, an approach for linking text instances on historical maps.
+
+**LIGHT** is a multi-modal learning model that jointly models text content, spatial layouts, polygonal shapes, and visual features to resolve complex linking challenges in scanned historical maps.
+
+📢 The paper has been accepted for **oral presentation at ICDAR 2025**.  
+📄 [View on arXiv](https://arxiv.org/abs/2506.22589)
+
 
 ## 📚 Pretraining
 
