@@ -71,7 +71,7 @@ def main():
         assert os.path.exists(args.light_pretrained_weights), "LIGHT pretrained weights must exists"
         print("... Loading pretrained weights for LIGHT ...")
         checkpoint = load_model_weights(args.light_pretrained_weights)
-        checkpoint = {k[len("module.light."):]: v for k, v in checkpoint.items() if k.startswith('module.light')}    
+        checkpoint = {k[len("module.light."):]: v for k, v in checkpoint.items() if k.startswith('module.light.')}    
         msg = model.light.load_state_dict(checkpoint, strict=False)
         print(msg) 
 

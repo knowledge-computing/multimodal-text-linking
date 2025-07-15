@@ -200,9 +200,13 @@ class PretrainDataset(Dataset):
         self.mode = mode
         
         self.samples = []
-        self.paths = {DATASET_META['Rumsey1_train']['anno_path']: DATASET_META['Rumsey1_train']['img_dir'],
-                      DATASET_META['Rumsey2_train']['anno_path']: DATASET_META['Rumsey2_train']['img_dir'],
-                      DATASET_META['MapText_json_train']['anno_path']: DATASET_META['MapText_json_train']['img_dir']}
+        self.paths = {}
+        for i, name in enumerate(args.train_datasets):
+            self.paths[DATASET_META[name]['anno_path']] = DATASET_META[name]['img_dir']
+            
+        # {DATASET_META['Rumsey1_train']['anno_path']: DATASET_META['Rumsey1_train']['img_dir'],
+        #  DATASET_META['Rumsey2_train']['anno_path']: DATASET_META['Rumsey2_train']['img_dir'],
+        #  DATASET_META['MapText_json_train']['anno_path']: DATASET_META['MapText_json_train']['img_dir']}
 
         # self.paths = {DATASET_META['hiertext_json_train']['anno_path']: DATASET_META['hiertext_json_train']['img_dir'],
         #               DATASET_META['icdar15_json_train']['anno_path']: DATASET_META['icdar15_json_train']['img_dir'],
@@ -225,9 +229,9 @@ class PretrainDataset(Dataset):
         random.shuffle(self.samples)
 
         if mode == 'train':
-            self.samples = self.samples[:-200]
+            self.samples = self.samples[:-100]
         else:
-            self.samples = self.samples[-200:]
+            self.samples = self.samples[-100:]
             
         print(f"Data ``{mode}'' contains {len(self.samples)} samples.")
         self.unused_indices = list(range(len(self.samples)))

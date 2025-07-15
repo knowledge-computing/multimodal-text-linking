@@ -88,10 +88,10 @@ def main():
     
     optimizer = AdamW(model.parameters(), lr=args.lr, betas=(0.9, 0.999), weight_decay=args.weight_decay)
     total_steps = int(args.num_samples_per_epoch * args.num_epochs / args.batch_size)  # Total training steps
-    print("Total number of Steps:", total_steps)  # Should print: 960
-    warmup_ratio = args.warmup_ratio # 4.8% warm-up
+    print("Total number of Steps:", total_steps)
+    warmup_ratio = args.warmup_ratio
     warmup_steps = int(total_steps * warmup_ratio)  # Compute warm-up steps
-    print("Warm-up Steps:", warmup_steps)  # Should print: 960
+    print("Warm-up Steps:", warmup_steps)
     scheduler = get_scheduler(
         "linear",
         optimizer=optimizer,

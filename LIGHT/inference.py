@@ -160,10 +160,10 @@ def main():
 
             if 'MapText' in args.test_dataset:
                 result = {"image": "rumsey/test/" + sample_data['image_name'], "groups": []}
-            elif 'HierText' in args.test_dataset:
-                result = {"image": sample_data['image_name'].split('.')[0], "groups": []}
-            elif 'IGN' in args.test_dataset:
-                result = {"image": "ign/test/" + sample_data['image_name'], "groups": []}
+            # elif 'HierText' in args.test_dataset:
+            #     result = {"image": sample_data['image_name'].split('.')[0], "groups": []}
+            # elif 'IGN' in args.test_dataset:
+            #     result = {"image": "ign/test/" + sample_data['image_name'], "groups": []}
             else:
                 result = {"image": image_name, "groups": []}
                 
@@ -181,10 +181,10 @@ def main():
 
     if 'MapText' in args.test_dataset:
         gt_path = DATASET_META['MapText_test']['anno_path']
-    if 'HierText' in args.test_dataset:
-        gt_path = DATASET_META['HierText_test']['anno_path']
-    if 'IGN' in args.test_dataset:
-        gt_path = DATASET_META['IGN_test']['anno_path']
+    # if 'HierText' in args.test_dataset:
+    #     gt_path = DATASET_META['HierText_test']['anno_path']
+    # if 'IGN' in args.test_dataset:
+    #     gt_path = DATASET_META['IGN_test']['anno_path']
     print(f"python evaluation/eval.py --gt {gt_path} --task detrecedges --pred {os.path.join(args.model_dir, args.out_file)}")
     os.system(f"python evaluation/eval.py --gt {gt_path} --task detrecedges --pred {os.path.join(args.model_dir, args.out_file)}")
 

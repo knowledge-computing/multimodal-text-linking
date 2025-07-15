@@ -46,16 +46,17 @@ python inference.py \
 
 ## 📁 Notes
 
-- Update the paths to your dataset, annotations, and trained model checkpoints as needed.
-- All the data configurations are in the dataset/buildin.py
+- Create a Conda environment from env.yaml
+- All the dataset configurations are in the `dataset/buildin.py`. You need to update the paths to your dataset and annotations.
 - All configs can be modified under the `configs/` directory to adjust hyperparameters or dataset settings.
+- You can download model weights from Google Drive: [Polygon Pretrain Weights](https://drive.google.com/drive/folders/1Qo0u1cVdrQ3vQOBH_PUGNF7BOjDbG3OP?usp=drive_link), [LIGHT Pretrain Weights](https://drive.google.com/drive/folders/1YhqYR7qjL0lp-gCnv0BYxin2FfvRdupD?usp=drive_link), [LIGHT Fintuned Weights](https://drive.google.com/drive/folders/16Ups2gbW7EVAttD17KPTF3V5O-_Zd96m?usp=drive_link)
 
 ## 🔗 References
 
 If you find this repository useful in your own work, we would appreciate a citation to the accompanying paper:
 
 ```bibtex
-@inproceedings{ weinman2024counting,
+@inproceedings{weinman2024counting,
    authors = {Lin, Yijun and Olson, Rhett and Wu, Junhan and Chiang, Yao-Yi and Weinman, Jerod},
    title = {LIGHT: Multi-Modal Text Linking on Historical Maps},
    booktitle = {19th International Conference on Document Analysis and Recognition ({ICDAR} 2025)},

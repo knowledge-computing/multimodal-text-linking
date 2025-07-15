@@ -16,6 +16,7 @@ poly_only: False
 text_only: False
 
 light_pretrained_weights: "_weights/pretrain_light/model_epoch_3000.pth"
+# light_pretrained_weights: "_runs/test__v3/models/model_epoch_1.pth"
 
 batch_size: 2
 train_datasets: ["MapText_train"]

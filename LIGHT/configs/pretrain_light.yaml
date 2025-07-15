@@ -17,13 +17,16 @@ mask_token_id: -1
 max_len: 32
 poly_pretrained_weights: "./_weights/pretrain_poly/model_epoch_3000.pth"
 
+# dataset settings
+train_datasets: ["MapText_json_train"] #, "Rumsey1_train", "Rumsey2_train"]
+
 # training settings
-batch_size: 4
+batch_size: 2
 num_epochs: 3000
 lr: 0.00005
 num_samples_per_epoch: 200
 eval_every_epoch: 10
-save_every_epoch: 100
+save_every_epoch: 1
 warmup_ratio: 0.048
 weight_decay: 0.01
 

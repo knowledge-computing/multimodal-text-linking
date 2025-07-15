@@ -27,6 +27,11 @@ def torch_int(x):
 
 
 class LightModel(LayoutLMv3Model):
+    """ 
+        Reference code: 
+        https://github.com/huggingface/transformers/blob/v4.53.2/src/transformers/models/layoutlmv3/modeling_layoutlmv3.py#L672 
+    """
+    
     _keys_to_ignore_on_load_missing = [r"position_ids"]
 
     # Copied from transformers.models.bert.modeling_bert.BertModel.__init__ with Bert->Roberta
