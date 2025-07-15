@@ -49,3 +49,20 @@ python inference.py \
 - Update the paths to your dataset, annotations, and trained model checkpoints as needed.
 - All the data configurations are in the dataset/buildin.py
 - All configs can be modified under the `configs/` directory to adjust hyperparameters or dataset settings.
+
+## 🔗 References
+
+If you find this repository useful in your own work, we would appreciate a citation to the accompanying paper:
+
+```bibtex
+@inproceedings{ weinman2024counting,
+   authors = {Lin, Yijun and Olson, Rhett and Wu, Junhan and Chiang, Yao-Yi and Weinman, Jerod},
+   title = {LIGHT: Multi-Modal Text Linking on Historical Maps},
+   booktitle = {19th International Conference on Document Analysis and Recognition ({ICDAR} 2025)},
+   series = {Lecture Notes in Computer Science},
+   publisher = {Springer},
+   location = {Wuhan, China},
+   year = {2025}
+}
+```
+
